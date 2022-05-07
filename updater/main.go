@@ -19,10 +19,11 @@ var configFile = flag.String("config", "/usr/local/etc/onlineconf.yaml", "config
 var once = flag.Bool("once", false, "fetch configuration once and exit")
 
 type AdminConfig struct {
-	Host     string
-	Port     int
-	Username string
-	Password string
+	Host      string
+	Port      int
+	Username  string
+	Password  string
+	IgnoreTLS bool `yaml:"ignore_tls"`
 }
 
 type ConfigFile struct {

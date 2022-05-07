@@ -6,6 +6,7 @@ admin:
   port: ${ONLINECONF_ADMIN_PORT}
   username: ${ONLINECONF_UPDATER_USER}
   password: ${ONLINECONF_UPDATER_PASSWORD}
+  ignore_tls: ${ONLINECONF_UPDATER_IGNORE_TLS}
 data_dir: /usr/local/etc/onlineconf/
 update_interval: ${ONLINECONF_UPDATE_INTERVAL:-10}
 " > /usr/local/etc/onlineconf.yaml
