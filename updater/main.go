@@ -1,8 +1,10 @@
 package main
 
 import (
+	"crypto/tls"
 	"flag"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
@@ -71,6 +73,10 @@ func readConfigFile(filename string) *updater.UpdaterConfig {
 	var config ConfigFile
 	if err := yaml.Unmarshal(data, &config); err != nil {
 		log.Fatal().Err(err).Str("file", filename).Msg("failed to parse config file")
+	}
+
+	if config.Admin.IgnoreTLS {
+		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	}
 
 	var uri string
