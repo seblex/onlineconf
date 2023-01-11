@@ -87,6 +87,7 @@ function AppRoot(props: AppRootProps) {
 						<Route exact path="/" render={props => <ConfigTree {...props} search={search} onSearching={setSearching} onError={onError}/>}/>
 						<Route exact path="/history/" render={props => <GlobalLog {...props} onError={onError}/>}/>
 						<Route exact path="/server/" render={props => <Servers {...props} onError={onError}/>}/>
+						<Route exact path="/plugins/" render={props => <Servers {...props} onError={onError}/>}/>
 						<Route exact path="/access-group/" render={props => <Access {...props} onError={onError}/>}/>
 					</main>
 				</div>

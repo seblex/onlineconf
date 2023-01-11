@@ -21,6 +21,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import HistoryIcon from '@material-ui/icons/History';
 import GroupIcon from '@material-ui/icons/Group';
 import StorageIcon from '@material-ui/icons/Storage';
+import PluginsIcon from '@material-ui/icons/Power';
 import LanguageIcon from '@material-ui/icons/Translate';
 import LightModeIcon from '@material-ui/icons/Brightness7';
 import DarkModeIcon from '@material-ui/icons/Brightness4';
@@ -125,6 +126,7 @@ export default function LeftMenu(props: LeftMenuProps) {
 				<ListLink to="/" Icon={SettingsIcon}>{t('left.configuration')}</ListLink>
 				<ListLink to="/history/" Icon={HistoryIcon}>{t('left.history')}</ListLink>
 				<ListLink to="/server/" Icon={StorageIcon}>{t('left.servers')}</ListLink>
+				<ListLink to="/plugins/" Icon={PluginsIcon}>{t('left.plugins')}</ListLink>
 				<ListLink to="/access-group/" Icon={GroupIcon}>{t('left.access')}</ListLink>
 				<ListItem button component={ClassicLink} to="/classic/">
 					<ListItemIcon>

@@ -118,6 +118,7 @@ const resources = {
 				configuration: 'Конфигурация',
 				history: 'Журнал',
 				servers: 'Серверы',
+				plugins: 'Плагины',
 				access: 'Доступ',
 			},
 			button: {

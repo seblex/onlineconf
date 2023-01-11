@@ -143,6 +143,7 @@ var aliases = map[string]string{
 	"/history/":      "/",
 	"/server/":       "/",
 	"/access-group/": "/",
+	"/plugins/":      "/",
 }
 
 type staticFileHandler struct {
