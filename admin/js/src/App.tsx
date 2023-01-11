@@ -11,6 +11,7 @@ import TopBar from './components/TopBar';
 import LeftMenu, { leftMenuWidth } from './components/LeftMenu';
 import ConfigTree from './components/ConfigTree';
 import Servers from './components/Servers';
+import Plugins from './components/Plugins';
 import Access from './components/Access';
 import ErrorSnackbar from './components/ErrorSnackbar';
 import GlobalLog from './components/GlobalLog';
@@ -87,7 +88,7 @@ function AppRoot(props: AppRootProps) {
 						<Route exact path="/" render={props => <ConfigTree {...props} search={search} onSearching={setSearching} onError={onError}/>}/>
 						<Route exact path="/history/" render={props => <GlobalLog {...props} onError={onError}/>}/>
 						<Route exact path="/server/" render={props => <Servers {...props} onError={onError}/>}/>
-						<Route exact path="/plugins/" render={props => <Servers {...props} onError={onError}/>}/>
+						<Route exact path="/plugins/" render={props => <Plugins {...props} onError={onError}/>}/>
 						<Route exact path="/access-group/" render={props => <Access {...props} onError={onError}/>}/>
 					</main>
 				</div>
