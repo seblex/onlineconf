@@ -11,6 +11,7 @@ const resources = {
 				history: 'History',
 				servers: 'Servers',
 				access: 'Access',
+				plugins: 'Plugins',
 			},
 			button: {
 				cancel: 'Cancel',
