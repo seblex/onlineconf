@@ -40,20 +40,58 @@ const styles = (theme: Theme) => createStyles({
 });
 
 
-interface ServersProps {
+interface PluginsProps {
 	onError: (error: unknown) => void;
 }
 
 
+interface PluginsState {
+	plugins: API.Plugin[];
+}
 
-class Plugins extends React.Component<ServersProps & WithStyles<typeof styles> & WithTranslation> {
+
+class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> & WithTranslation> {
 	static contextType = WhoAmIContext;
+
+	state: PluginsState = {
+		plugins: [],
+	};
+
+	componentDidMount() {
+		this.load();
+	}
+
+	private async load() {
+		try {
+			const plugins = await API.getPlugins();
+			this.state.plugins = plugins;
+		} catch (error) {
+			this.props.onError(error);
+		}
+	}
 
 	render() {
 		const { classes, t } = this.props;
+		const { plugins } = this.state;
+
 		return (
 			<div className={classes.root}>
-
+				<Table size="small">
+					<TableHead>
+						<TableRow className={classes.head}>
+							<TableCell padding="none"/>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{plugins.map(plugin => {
+							return (
+								<TableRow key={plugin.name} className={classes.row}>
+									<TableCell>{plugin.name}</TableCell>
+								</TableRow>
+							);
+						})}
+					</TableBody>
+				</Table>
 			</div>
 		);
 	}

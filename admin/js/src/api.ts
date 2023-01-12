@@ -167,8 +167,19 @@ export interface Server {
 	package: string;
 }
 
+export interface Plugin {
+	id: string;
+	name: string ;
+	enabled: boolean;
+}
+
 export async function getServers() {
 	const response = await axios.get<Server[]>('/monitoring', commonOptions);
+	return response.data;
+}
+
+export async function getPlugins() {
+	const response = await axios.get<Plugin[]>('/plugins', commonOptions);
 	return response.data;
 }
 

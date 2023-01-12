@@ -59,6 +59,9 @@ func RegisterRoutes(r *mux.Router) {
 	r.Path("/monitoring").Methods("GET").HandlerFunc(serveMonitoring)
 	r.Path("/monitoring/{host}").Methods("DELETE").HandlerFunc(serveDeleteServerFromMonitoring)
 
+	r.Path("/plugins").Methods("GET").HandlerFunc(getPluginsList)
+	r.Path("/plugins/{id}").Methods("GET").HandlerFunc(getPluginsList)
+
 	r.Path("/ui-config").Methods("GET").HandlerFunc(serveUIConfig)
 }
 
@@ -332,6 +335,11 @@ func serveParameterLog(w http.ResponseWriter, req *http.Request) {
 
 func serveMonitoring(w http.ResponseWriter, req *http.Request) {
 	list, err := SelectServerStatus(req.Context(), req.URL.Query().Get("sort"))
+	writeResponse(req.Context(), w, list, err)
+}
+
+func getPluginsList(w http.ResponseWriter, req *http.Request) {
+	list, err := GetPluginsList(req.Context())
 	writeResponse(req.Context(), w, list, err)
 }
 
