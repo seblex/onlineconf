@@ -19,7 +19,8 @@ import * as API from '../api';
 import { smartCompare } from './common';
 import WhoAmIContext from './WhoAmIContext';
 
-import RemoveIcon from '@material-ui/icons/RemoveCircle';
+import HelpIcon from '@material-ui/icons/Help';
+import EditIcon from '@material-ui/icons/Edit';
 
 const styles = (theme: Theme) => createStyles({
 	root: {
@@ -79,7 +80,10 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 				<Table size="small">
 					<TableHead>
 						<TableRow className={classes.head}>
-							<TableCell padding="none"/>
+							<TableCell>{t('plugin.name')}</TableCell>
+							<TableCell>{t('plugin.version')}</TableCell>
+							<TableCell>{t('plugin.edit')}</TableCell>
+							<TableCell>{t('plugin.about')}</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -87,6 +91,13 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 							return (
 								<TableRow key={plugin.name} className={classes.row}>
 									<TableCell>{plugin.name}</TableCell>
+									<TableCell>1.0.0</TableCell>
+									<TableCell padding="none">
+										<IconButton ><EditIcon/></IconButton>
+									</TableCell>
+									<TableCell padding="none">
+										<IconButton ><HelpIcon/></IconButton>
+									</TableCell>
 								</TableRow>
 							);
 						})}

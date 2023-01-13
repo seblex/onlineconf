@@ -104,6 +104,12 @@ const resources = {
 					message: 'Delete {{server}} from monitoring?',
 				},
 			},
+			plugin: {
+				name: 'Name',
+				version: 'Version',
+				about: 'About',
+				edit: 'Edit',
+			},
 			access: {
 				createGroup: 'Create group',
 				group: 'Group',
@@ -212,6 +218,12 @@ const resources = {
 					title: 'Удалить сервер?',
 					message: 'Удалить {{server}} из мониторинга?',
 				},
+			},
+			plugin: {
+				name: 'Название',
+				version: 'Версия',
+				about: 'О плагине',
+				edit: 'Изменить',
 			},
 			access: {
 				createGroup: 'Создать группу',
