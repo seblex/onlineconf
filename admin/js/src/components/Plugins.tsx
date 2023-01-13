@@ -41,15 +41,59 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface PluginsListProps {
+	plugins: API.Plugin[];
+	classes: any;
+	t: any;
+	//onShowPluginInfo(): void;
+	//onChangePluginConfig(): void;
 }
 
+function PluginsList(props: PluginsListProps) {
+	const plugins = props.plugins;
+	const classes = props.classes;
+	const t = props.t;
+
+	return (
+		<div className={classes.root}>
+			<Table size="small">
+				<TableHead>
+					<TableRow className={classes.head}>
+						<TableCell>{t('plugin.name')}</TableCell>
+						<TableCell>{t('plugin.version')}</TableCell>
+						<TableCell>{t('plugin.edit')}</TableCell>
+						<TableCell>{t('plugin.about')}</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{plugins.map(plugin => {
+						return (
+							<TableRow key={plugin.name} className={classes.row}>
+								<TableCell>{plugin.name}</TableCell>
+								<TableCell>1.0.0</TableCell>
+								<TableCell padding="none">
+									<IconButton ><EditIcon/></IconButton>
+								</TableCell>
+								<TableCell padding="none">
+									<IconButton><HelpIcon/></IconButton>
+								</TableCell>
+							</TableRow>
+						);
+					})}
+				</TableBody>
+			</Table>
+		</div>
+	);
+}
+
+// Props for plugins component
 interface PluginsProps {
 	onError: (error: unknown) => void;
 }
 
-
+// Components state
 interface PluginsState {
 	plugins: API.Plugin[];
+	dialog?: JSX.Element;
 }
 
 class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> & WithTranslation> {
@@ -76,34 +120,14 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 		const { plugins } = this.state;
 
 		return (
-			<div className={classes.root}>
-				<Table size="small">
-					<TableHead>
-						<TableRow className={classes.head}>
-							<TableCell>{t('plugin.name')}</TableCell>
-							<TableCell>{t('plugin.version')}</TableCell>
-							<TableCell>{t('plugin.edit')}</TableCell>
-							<TableCell>{t('plugin.about')}</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{plugins.map(plugin => {
-							return (
-								<TableRow key={plugin.name} className={classes.row}>
-									<TableCell>{plugin.name}</TableCell>
-									<TableCell>1.0.0</TableCell>
-									<TableCell padding="none">
-										<IconButton ><EditIcon/></IconButton>
-									</TableCell>
-									<TableCell padding="none">
-										<IconButton><HelpIcon/></IconButton>
-									</TableCell>
-								</TableRow>
-							);
-						})}
-					</TableBody>
-				</Table>
-			</div>
+			<React.Fragment>
+				<PluginsList
+					plugins={plugins}
+					classes={classes}
+					t={t}
+				/>
+				{this.state.dialog}
+			</React.Fragment>
 		);
 	}
 
