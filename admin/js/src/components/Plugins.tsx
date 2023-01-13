@@ -40,6 +40,8 @@ const styles = (theme: Theme) => createStyles({
 	},
 });
 
+interface PluginsListProps {
+}
 
 interface PluginsProps {
 	onError: (error: unknown) => void;
@@ -50,10 +52,7 @@ interface PluginsState {
 	plugins: API.Plugin[];
 }
 
-
 class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> & WithTranslation> {
-	static contextType = WhoAmIContext;
-
 	state: PluginsState = {
 		plugins: [],
 	};
@@ -64,12 +63,13 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 
 	private async load() {
 		try {
-			const plugins = await API.getPlugins();
-			this.state.plugins = plugins;
+			this.setState({ plugins: await API.getPlugins() });
 		} catch (error) {
 			this.props.onError(error);
 		}
 	}
+
+	static contextType = WhoAmIContext;
 
 	render() {
 		const { classes, t } = this.props;
@@ -96,7 +96,7 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 										<IconButton ><EditIcon/></IconButton>
 									</TableCell>
 									<TableCell padding="none">
-										<IconButton ><HelpIcon/></IconButton>
+										<IconButton><HelpIcon/></IconButton>
 									</TableCell>
 								</TableRow>
 							);
