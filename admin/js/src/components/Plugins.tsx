@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, WithTranslation, useTranslation } from 'react-i18next';
 import { withStyles, WithStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -51,7 +51,7 @@ interface PluginsListProps {
 function PluginsList(props: PluginsListProps) {
 	const plugins = props.plugins;
 	const classes = props.classes;
-	const t = props.t;
+	const { t } = useTranslation();
 
 	return (
 		<div className={classes.root}>
