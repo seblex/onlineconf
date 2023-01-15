@@ -109,7 +109,8 @@ const resources = {
 				version: 'Version',
 				about: 'About',
 				edit: 'Edit',
-				pluginInfo: 'Information about "{{plugin}} plugin"',
+				info: 'Information about "{{plugin}}" plugin',
+				config: '{{plugin}} plugin configuration',
 			},
 			access: {
 				createGroup: 'Create group',
@@ -225,7 +226,8 @@ const resources = {
 				version: 'Версия',
 				about: 'О плагине',
 				edit: 'Изменить',
-				pluginInfo: 'Информация о плагине "{{plugin}}"',
+				info: 'Информация о плагине "{{plugin}}"',
+				config: 'Конфигурация плагина {{plugin}}',
 			},
 			access: {
 				createGroup: 'Создать группу',

@@ -15,6 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import ReactMarkdown from 'react-markdown';
+import UserField from './UserField';
 
 import * as API from '../api';
 import { smartCompare } from './common';
@@ -51,15 +52,16 @@ function ShowPluginInfo(props: ShowPluginInfoProps) {
 	const { t } = useTranslation();
 	const [ open, setOpen ] = React.useState(true);
 	const [ user, setUser ] = React.useState('');
-	const markdown = '# Hello, *world*!\n## Now we will talk about our plugin\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n';
 
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)} onExited={props.onClosed}>
-			<DialogTitle>{t('plugin.pluginInfo', { plugin: props.plugin.name })}</DialogTitle>
+			<DialogTitle>{t('plugin.info', { plugin: props.plugin.name })}</DialogTitle>
 			<React.Fragment>
-				<ReactMarkdown>
-					{props.plugin.info}
-				</ReactMarkdown>
+				<DialogContent>
+					<ReactMarkdown>
+						{props.plugin.info}
+					</ReactMarkdown>
+				</DialogContent>
 			</React.Fragment>
 			<DialogActions>
 				<Button color="primary" onClick={() => setOpen(false)}>{t('button.close')}</Button>
@@ -68,9 +70,31 @@ function ShowPluginInfo(props: ShowPluginInfoProps) {
 	);
 }
 
+// Plugin Config Form
+interface ShowPluginConfigProps {
+	plugin: API.Plugin;
+	onClosed: () => void;
+}
+
+function ShowPluginConfig(props: ShowPluginInfoProps) {
+	const { t } = useTranslation();
+	const [ open, setOpen ] = React.useState(true);
+	const [ user, setUser ] = React.useState('');
+
+	return (
+		<Dialog open={open} onClose={() => setOpen(false)} onExited={props.onClosed}>
+			<DialogTitle>{t('plugin.config', { plugin: props.plugin.name })}</DialogTitle>
+			<DialogContent>
+			</DialogContent>
+			<DialogActions>
+				<Button color="primary" onClick={() => setOpen(false)}>{t('button.save')}</Button>
+				<Button color="primary" onClick={() => setOpen(false)}>{t('button.close')}</Button>
+			</DialogActions>
+		</Dialog>
+	);
+}
+
 // Plugins List Main Page
-
-
 interface PluginsListProps {
 	plugins: API.Plugin[];
 	classes: any;
@@ -154,6 +178,12 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 		});
 	};
 
+	private showPluginConfigDialog = (plugin: API.Plugin) => {
+		this.setState({
+			dialog: <ShowPluginConfig plugin={plugin} onClosed={this.handleDialogClosed}/>
+		});
+	};
+
 	static contextType = WhoAmIContext;
 
 	render() {
@@ -166,7 +196,7 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 					plugins={plugins}
 					classes={classes}
 					onShowPluginInfo={this.showPluginInfoDialog}
-					onPluginConfigChange={this.showPluginInfoDialog}
+					onPluginConfigChange={this.showPluginConfigDialog}
 				/>
 				{this.state.dialog}
 			</React.Fragment>

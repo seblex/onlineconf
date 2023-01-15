@@ -5,7 +5,6 @@ OnlineConf is an application level configuration system targeted at developers a
 OnlineConf is developed with horizontal scalability and fault tolerance in mind, and it is able to store relatively large configurations. Reading of configuration parameters by applications is done from memory mapped files organized as a constant database and it neither requires networking nor injects additional points of failure. Thanks to the index required parameters only are read from files without parsing of their whole content.
 
 OnlineConf is developed by Mail.Ru where it is used since 2011 to configure high load projects deployed on thousands of servers.
-
 ![Screenshot](screenshot.png)
 
 ## Features
