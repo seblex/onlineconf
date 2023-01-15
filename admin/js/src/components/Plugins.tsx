@@ -14,6 +14,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import ReactMarkdown from 'react-markdown';
 
 import * as API from '../api';
 import { smartCompare } from './common';
@@ -40,11 +41,40 @@ const styles = (theme: Theme) => createStyles({
 	},
 });
 
+
+interface ShowPluginInfoProps {
+	plugin: API.Plugin;
+	onClosed: () => void;
+}
+
+function ShowPluginInfo(props: ShowPluginInfoProps) {
+	const { t } = useTranslation();
+	const [ open, setOpen ] = React.useState(true);
+	const [ user, setUser ] = React.useState('');
+	const markdown = '# Hello, *world*!\n## Now we will talk about our plugin\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n\n- very goood\n- very nice\n';
+
+	return (
+		<Dialog open={open} onClose={() => setOpen(false)} onExited={props.onClosed}>
+			<DialogTitle>{t('plugin.pluginInfo', { plugin: props.plugin.name })}</DialogTitle>
+			<React.Fragment>
+				<ReactMarkdown>
+					{markdown}
+				</ReactMarkdown>
+			</React.Fragment>
+			<DialogActions>
+				<Button color="primary" onClick={() => setOpen(false)}>{t('button.close')}</Button>
+			</DialogActions>
+		</Dialog>
+	);
+}
+
+// Plugins List Main Page
+
+
 interface PluginsListProps {
 	plugins: API.Plugin[];
 	classes: any;
-	t: any;
-	//onShowPluginInfo(): void;
+	onShowPluginInfo(plugin: API.Plugin): void;
 	//onChangePluginConfig(): void;
 }
 
@@ -74,7 +104,7 @@ function PluginsList(props: PluginsListProps) {
 									<IconButton ><EditIcon/></IconButton>
 								</TableCell>
 								<TableCell padding="none">
-									<IconButton><HelpIcon/></IconButton>
+									<IconButton onClick={() => props.onShowPluginInfo(plugin)}><HelpIcon/></IconButton>
 								</TableCell>
 							</TableRow>
 						);
@@ -101,6 +131,10 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 		plugins: [],
 	};
 
+	private handleDialogClosed = () => {
+		this.setState({ dialog: undefined });
+	};
+
 	componentDidMount() {
 		this.load();
 	}
@@ -113,6 +147,12 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 		}
 	}
 
+	private showPluginInfoDialog = (plugin: API.Plugin) => {
+		this.setState({
+			dialog: <ShowPluginInfo plugin={plugin} onClosed={this.handleDialogClosed}/>
+		});
+	};
+
 	static contextType = WhoAmIContext;
 
 	render() {
@@ -124,7 +164,7 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 				<PluginsList
 					plugins={plugins}
 					classes={classes}
-					t={t}
+					onShowPluginInfo={this.showPluginInfoDialog}
 				/>
 				{this.state.dialog}
 			</React.Fragment>
