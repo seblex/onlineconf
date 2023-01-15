@@ -58,7 +58,7 @@ function ShowPluginInfo(props: ShowPluginInfoProps) {
 			<DialogTitle>{t('plugin.pluginInfo', { plugin: props.plugin.name })}</DialogTitle>
 			<React.Fragment>
 				<ReactMarkdown>
-					{markdown}
+					{props.plugin.info}
 				</ReactMarkdown>
 			</React.Fragment>
 			<DialogActions>
@@ -75,6 +75,7 @@ interface PluginsListProps {
 	plugins: API.Plugin[];
 	classes: any;
 	onShowPluginInfo(plugin: API.Plugin): void;
+	onPluginConfigChange(plugin: API.Plugin): void;
 	//onChangePluginConfig(): void;
 }
 
@@ -101,7 +102,7 @@ function PluginsList(props: PluginsListProps) {
 								<TableCell>{plugin.name}</TableCell>
 								<TableCell>1.0.0</TableCell>
 								<TableCell padding="none">
-									<IconButton ><EditIcon/></IconButton>
+									<IconButton onClick={() => props.onPluginConfigChange(plugin)}><EditIcon/></IconButton>
 								</TableCell>
 								<TableCell padding="none">
 									<IconButton onClick={() => props.onShowPluginInfo(plugin)}><HelpIcon/></IconButton>
@@ -165,6 +166,7 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 					plugins={plugins}
 					classes={classes}
 					onShowPluginInfo={this.showPluginInfoDialog}
+					onPluginConfigChange={this.showPluginInfoDialog}
 				/>
 				{this.state.dialog}
 			</React.Fragment>
