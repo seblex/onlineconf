@@ -16,6 +16,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import ReactMarkdown from 'react-markdown';
 import UserField from './UserField';
+import TextField from '@material-ui/core/TextField';
 
 import * as API from '../api';
 import { smartCompare } from './common';
@@ -85,6 +86,7 @@ function ShowPluginConfig(props: ShowPluginInfoProps) {
 		<Dialog open={open} onClose={() => setOpen(false)} onExited={props.onClosed}>
 			<DialogTitle>{t('plugin.config', { plugin: props.plugin.name })}</DialogTitle>
 			<DialogContent>
+				<UserField placeholder={t('access.user')} value={user} onChange={setUser} autoFocus variant="outlined" margin="dense" fullWidth/>
 			</DialogContent>
 			<DialogActions>
 				<Button color="primary" onClick={() => setOpen(false)}>{t('button.save')}</Button>
