@@ -172,7 +172,6 @@ export interface Plugin {
 	name: string ;
 	enabled: boolean;
 	info: string;
-	config_fields: string[];
 }
 
 export async function getServers() {

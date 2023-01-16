@@ -16,6 +16,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import ReactMarkdown from 'react-markdown';
 import UserField from './UserField';
+
 import TextField from '@material-ui/core/TextField';
 
 import * as API from '../api';
@@ -52,8 +53,6 @@ interface ShowPluginInfoProps {
 function ShowPluginInfo(props: ShowPluginInfoProps) {
 	const { t } = useTranslation();
 	const [ open, setOpen ] = React.useState(true);
-	const [ user, setUser ] = React.useState('');
-
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)} onExited={props.onClosed}>
 			<DialogTitle>{t('plugin.info', { plugin: props.plugin.name })}</DialogTitle>
@@ -71,37 +70,12 @@ function ShowPluginInfo(props: ShowPluginInfoProps) {
 	);
 }
 
-// Plugin Config Form
-interface ShowPluginConfigProps {
-	plugin: API.Plugin;
-	onClosed: () => void;
-}
-
-function ShowPluginConfig(props: ShowPluginInfoProps) {
-	const { t } = useTranslation();
-	const [ open, setOpen ] = React.useState(true);
-	const [ user, setUser ] = React.useState('');
-
-	return (
-		<Dialog open={open} onClose={() => setOpen(false)} onExited={props.onClosed}>
-			<DialogTitle>{t('plugin.config', { plugin: props.plugin.name })}</DialogTitle>
-			<DialogContent>
-				<UserField placeholder={t('access.user')} value={user} onChange={setUser} autoFocus variant="outlined" margin="dense" fullWidth/>
-			</DialogContent>
-			<DialogActions>
-				<Button color="primary" onClick={() => setOpen(false)}>{t('button.save')}</Button>
-				<Button color="primary" onClick={() => setOpen(false)}>{t('button.close')}</Button>
-			</DialogActions>
-		</Dialog>
-	);
-}
 
 // Plugins List Main Page
 interface PluginsListProps {
 	plugins: API.Plugin[];
 	classes: any;
 	onShowPluginInfo(plugin: API.Plugin): void;
-	onPluginConfigChange(plugin: API.Plugin): void;
 	//onChangePluginConfig(): void;
 }
 
@@ -117,7 +91,6 @@ function PluginsList(props: PluginsListProps) {
 					<TableRow className={classes.head}>
 						<TableCell>{t('plugin.name')}</TableCell>
 						<TableCell>{t('plugin.version')}</TableCell>
-						<TableCell>{t('plugin.edit')}</TableCell>
 						<TableCell>{t('plugin.about')}</TableCell>
 					</TableRow>
 				</TableHead>
@@ -127,9 +100,6 @@ function PluginsList(props: PluginsListProps) {
 							<TableRow key={plugin.name} className={classes.row}>
 								<TableCell>{plugin.name}</TableCell>
 								<TableCell>1.0.0</TableCell>
-								<TableCell padding="none">
-									<IconButton onClick={() => props.onPluginConfigChange(plugin)}><EditIcon/></IconButton>
-								</TableCell>
 								<TableCell padding="none">
 									<IconButton onClick={() => props.onShowPluginInfo(plugin)}><HelpIcon/></IconButton>
 								</TableCell>
@@ -180,12 +150,6 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 		});
 	};
 
-	private showPluginConfigDialog = (plugin: API.Plugin) => {
-		this.setState({
-			dialog: <ShowPluginConfig plugin={plugin} onClosed={this.handleDialogClosed}/>
-		});
-	};
-
 	static contextType = WhoAmIContext;
 
 	render() {
@@ -198,7 +162,6 @@ class Plugins extends React.Component<PluginsProps & WithStyles<typeof styles> &
 					plugins={plugins}
 					classes={classes}
 					onShowPluginInfo={this.showPluginInfoDialog}
-					onPluginConfigChange={this.showPluginConfigDialog}
 				/>
 				{this.state.dialog}
 			</React.Fragment>
