@@ -343,14 +343,6 @@ func getPluginsList(w http.ResponseWriter, req *http.Request) {
 	writeResponse(req.Context(), w, list, err)
 }
 
-func setPluginConfig(w http.ResponseWriter, req *http.Request) {
-
-}
-
-func getPluginsTypes() {
-
-}
-
 func serveDeleteServerFromMonitoring(w http.ResponseWriter, req *http.Request) {
 	if !validateUserIsRoot(w, req) {
 		return

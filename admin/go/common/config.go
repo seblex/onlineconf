@@ -1,5 +1,7 @@
 package common
 
+import "github.com/google/uuid"
+
 type DatabaseConfig struct {
 	Host        string
 	User        string
@@ -16,4 +18,13 @@ type CommonConfig struct {
 
 func CommonInitialize(c CommonConfig) {
 	DB = OpenDatabase(c.Database)
+}
+
+type PluginConfigContributor func(key string) (string, error)
+
+type PluginInfo struct {
+	ID      uuid.UUID `json:"id"`
+	Name    string    `json:"name"`
+	Enabled bool      `json:"enabled"`
+	Info    string    `json:"info"`
 }

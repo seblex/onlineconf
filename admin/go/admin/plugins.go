@@ -2,30 +2,41 @@ package admin
 
 import (
 	"context"
-	"github.com/google/uuid"
+	_ "embed"
+	"github.com/onlineconf/onlineconf/admin/go/common"
+	"github.com/onlineconf/onlineconf/admin/go/plugins/etcd"
+	"log"
 )
 
-type Plugin struct {
-	ID           uuid.UUID `json:"id"`
-	Name         string    `json:"name"`
-	Enabled      bool      `json:"enabled"`
-	Info         string    `json:"info"`
-	ConfigFields []string  `json:"config_fields"`
+type IncludedPlugin interface {
+	GetInfo(ctx context.Context) common.PluginInfo
+	GetHints(ctx context.Context, prefix string) ([]string, error)
+	ReadyStatus() bool
 }
 
-func GetPluginsList(ctx context.Context) ([]Plugin, error) {
-	return []Plugin{
-		{
-			ID:      uuid.New(),
-			Name:    "etcd",
-			Enabled: true,
-			Info:    "![etcd Logo](https://www.oddeye.co/documentation/images/etcd.png) \n# H1 test\n\n ## H2 test\n\n- test box 1\n- test box 2",
-		},
-		{
-			ID:      uuid.New(),
-			Name:    "redis",
-			Enabled: false,
-			Info:    "# this is redis H1 test\n# H2 test\n\n- test box 1\n- test box 2",
-		},
-	}, nil
+var IncludedPlugins []IncludedPlugin
+
+func InitPluginsUsage(ctx context.Context) {
+	etcd, err := etcd.New(func(key string) (string, error) {
+		param, err := SelectParameter(ctx, "/onlineconf/plugins/%s/%s"+etcd.GetPluginName()+key)
+
+		return param.Value.String, err
+	})
+	if err != nil {
+		log.Println("cant load etcd plugin")
+	}
+	IncludedPlugins = append(IncludedPlugins, etcd)
+}
+
+func GetPluginsList(ctx context.Context) ([]common.PluginInfo, error) {
+	res := make([]common.PluginInfo, len(IncludedPlugins))
+	for i, p := range IncludedPlugins {
+		if !p.ReadyStatus() {
+			continue
+		}
+
+		res[i] = p.GetInfo(ctx)
+	}
+
+	return res, nil
 }

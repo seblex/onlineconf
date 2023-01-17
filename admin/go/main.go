@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"io/ioutil"
 	"net"
@@ -42,11 +43,14 @@ type ConfigFile struct {
 var config *ConfigFile
 
 func main() {
+	ctx := context.Background()
 	flag.Parse()
 	config = readConfigFile(*configFile)
 	CommonInitialize(config.CommonConfig)
 	admin.Initialize(config.AdminConfig)
+
 	resolver.Initialize()
+	admin.InitPluginsUsage(ctx)
 
 	r := mux.NewRouter()
 

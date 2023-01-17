@@ -30,3 +30,4 @@ services:
       MYSQL_PASSWORD: onlineconf
 volumes:
   data: {}
+

@@ -1,8 +1,9 @@
 module github.com/onlineconf/onlineconf/admin/go
 
-go 1.11
+go 1.16
 
 require (
+	github.com/coreos/etcd v2.3.8+incompatible
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gobwas/glob v0.2.3
 	github.com/google/uuid v1.3.0
